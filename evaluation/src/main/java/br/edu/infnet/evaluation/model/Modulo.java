@@ -13,8 +13,8 @@ public class Modulo {
 	@Column
 	private String identificacao;
 
-	@OneToMany
-	private List<Turma> turmas;
+//	@OneToMany
+//	private List<Turma> turmas;
 
 	@OneToMany
 	private List<Professor> professores;
@@ -38,13 +38,13 @@ public class Modulo {
 		this.identificacao = identificacao;
 	}
 
-	public List<Turma> getTurmas() {
+	/*public List<Turma> getTurmas() {
 		return turmas;
 	}
 
 	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
-	}
+	}*/
 
 	public List<Professor> getProfessores() {
 		return professores;
