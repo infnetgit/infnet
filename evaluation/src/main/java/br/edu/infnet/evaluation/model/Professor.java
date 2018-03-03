@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -13,7 +14,8 @@ import javax.persistence.Table;
 public class Professor {
 
 	@Id
-	private String matricula;
+	@GeneratedValue
+	private Long matricula;
 
 	@Column
 	private String nome;
@@ -24,11 +26,11 @@ public class Professor {
 	@OneToMany
 	private List<Curso> cursos;
 
-	public String getMatricula() {
+	public Long getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(String matricula) {
+	public void setMatricula(Long matricula) {
 		this.matricula = matricula;
 	}
 
