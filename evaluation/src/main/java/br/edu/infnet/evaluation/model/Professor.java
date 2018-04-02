@@ -1,36 +1,33 @@
 package br.edu.infnet.evaluation.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table
-public class Professor {
+public class Professor implements Serializable {
 
+	private static final long serialVersionUID = -5195351493732758905L;
+	
 	@Id
-	@GeneratedValue
-	private Long matricula;
+	@Column(name="mat_professor")
+	private String matricula;
 
-	@Column
 	private String nome;
-
-	@OneToMany
-	private List<Turma> turmas;
-
-	@OneToMany
-	private List<Curso> cursos;
-
-	public Long getMatricula() {
+	
+	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(Long matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 
@@ -42,20 +39,36 @@ public class Professor {
 		this.nome = nome;
 	}
 
-	public List<Turma> getTurmas() {
-		return turmas;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
 	}
 
-	public void setTurmas(List<Turma> turmas) {
-		this.turmas = turmas;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Professor other = (Professor) obj;
+		if (matricula == null) {
+			if (other.matricula != null)
+				return false;
+		} else if (!matricula.equals(other.matricula))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
 	}
 
-	public List<Curso> getCursos() {
-		return cursos;
-	}
-
-	public void setCursos(List<Curso> cursos) {
-		this.cursos = cursos;
-	}
-
+	
 }

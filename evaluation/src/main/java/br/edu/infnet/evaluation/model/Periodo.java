@@ -1,35 +1,15 @@
 package br.edu.infnet.evaluation.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table
-public class Periodo {
+public enum Periodo {
+MANHA("Manhã"), TARDE("Tarde"), NOITE("Noite");
 	
-@Id
-private String codigo;
+	private Periodo(String periodo) {
+		this.periodo = periodo;
+	}
+	
+	public String getPeriodo() {
+		return periodo;
+	}
 
-@Column
-private String descricao;
-
-public String getCodigo() {
-	return codigo;
-}
-
-public void setCodigo(String codigo) {
-	this.codigo = codigo;
-}
-
-public String getDescricao() {
-	return descricao;
-}
-
-public void setDescricao(String descricao) {
-	this.descricao = descricao;
-}
-
-
+	private String periodo;
 }

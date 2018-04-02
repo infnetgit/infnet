@@ -27,6 +27,6 @@
 <mapping class="br.edu.infnet.evaluation.model.Professor" />
 <mapping class="br.edu.infnet.evaluation.model.Questao" />
 <mapping class="br.edu.infnet.evaluation.model.Turma" />
-<mapping class="br.edu.infnet.evaluation.model.Periodo" />
+<mapping class="br.edu.infnet.evaluation.model.Usuario" />
     </session-factory>
 </hibernate-configuration>

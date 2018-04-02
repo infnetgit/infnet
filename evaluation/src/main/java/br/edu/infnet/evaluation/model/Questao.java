@@ -1,62 +1,118 @@
 package br.edu.infnet.evaluation.model;
 
-import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.NaturalId;
+
+import br.edu.infnet.evaluation.enumerations.Resposta;
 
 @Entity
-@Table
-public class Questao {
-	
+public class Questao implements Serializable {
+
+	private static final long serialVersionUID = 8843242245478530980L;
+
 	@Id
-	@GeneratedValue
-private Integer codigo;
+	@Column(name = "cod_questao")
+	private String codigo;
 
-@OneToOne
-private Curso curso;
+	/**
+	 * Texto que representa a pergunta a ser feita ao respondente.
+	 */
+	@Lob
+	private String cabecalho;
 
-@Column
-private String descricao;
+	@ManyToOne
+	@JoinColumn(name = "mat_aluno")
+	private Aluno respondente;
 
-//Aqui deve ser uma enum. Verificar como fazer o mapeamento.
-private List<String> alternativas;
+	/**
+	 * Enum que representa as opções dadas ao respondente como discordo,
+	 * discordo parcialmente, concordo e etc.
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "resposta", nullable = false, updatable = false)
+	private Resposta resposta;
 
-public Integer getCodigo() {
-	return codigo;
-}
+	public String getCodigo() {
+		return codigo;
+	}
 
-public void setCodigo(Integer codigo) {
-	this.codigo = codigo;
-}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
-public Curso getCurso() {
-	return curso;
-}
+	public String getCabecalho() {
+		return cabecalho;
+	}
 
-public void setCurso(Curso curso) {
-	this.curso = curso;
-}
+	public void setCabecalho(String cabecalho) {
+		this.cabecalho = cabecalho;
+	}
 
-public String getDescricao() {
-	return descricao;
-}
+	public Aluno getRespondente() {
+		return respondente;
+	}
 
-public void setDescricao(String descricao) {
-	this.descricao = descricao;
-}
+	public void setRespondente(Aluno respondente) {
+		this.respondente = respondente;
+	}
 
-public List<String> getAlternativas() {
-	return alternativas;
-}
+	public Resposta getResposta() {
+		return resposta;
+	}
 
-public void setAlternativas(List<String> alternativas) {
-	this.alternativas = alternativas;
-}
+	public void setResposta(Resposta resposta) {
+		this.resposta = resposta;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cabecalho == null) ? 0 : cabecalho.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((respondente == null) ? 0 : respondente.hashCode());
+		result = prime * result + ((resposta == null) ? 0 : resposta.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Questao other = (Questao) obj;
+		if (cabecalho == null) {
+			if (other.cabecalho != null)
+				return false;
+		} else if (!cabecalho.equals(other.cabecalho))
+			return false;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (respondente == null) {
+			if (other.respondente != null)
+				return false;
+		} else if (!respondente.equals(other.respondente))
+			return false;
+		if (resposta != other.resposta)
+			return false;
+		return true;
+	}
 
 }

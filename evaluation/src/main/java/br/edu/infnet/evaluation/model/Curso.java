@@ -1,34 +1,39 @@
 package br.edu.infnet.evaluation.model;
 
+import java.io.Serializable;
+
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table
-public class Curso {
+public class Curso implements Serializable {
 
-	@Id
-	private Integer codigo;
-	
-@Column
+	private static final long serialVersionUID = -1034650088670732964L;
+
+		@Id
+	@Column(name = "cod_curso")
+	private String codigo;
+
 	private String nome;
-	
-@OneToMany
-	private List<Aluno> alunos;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cod_curso")
 	private List<Bloco> blocos;
 
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 
@@ -46,6 +51,43 @@ public class Curso {
 
 	public void setBlocos(List<Bloco> blocos) {
 		this.blocos = blocos;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((blocos == null) ? 0 : blocos.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Curso other = (Curso) obj;
+		if (blocos == null) {
+			if (other.blocos != null)
+				return false;
+		} else if (!blocos.equals(other.blocos))
+			return false;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
 	}
 
 }
