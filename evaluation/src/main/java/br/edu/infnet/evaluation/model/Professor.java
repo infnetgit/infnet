@@ -3,6 +3,7 @@ package br.edu.infnet.evaluation.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,13 +17,30 @@ import org.hibernate.annotations.NaturalId;
 public class Professor implements Serializable {
 
 	private static final long serialVersionUID = -5195351493732758905L;
-	
+
 	@Id
-	@Column(name="mat_professor")
+	@GeneratedValue
+	@Column(name = "id_professor")
+	private Long id;
+
+	@NaturalId
+	@Column(name = "mat_professor")
 	private String matricula;
 
 	private String nome;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_professor")
+	private List<Turma> turmas;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getMatricula() {
 		return matricula;
 	}
@@ -43,8 +61,10 @@ public class Professor implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((turmas == null) ? 0 : turmas.hashCode());
 		return result;
 	}
 
@@ -57,6 +77,11 @@ public class Professor implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Professor other = (Professor) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (matricula == null) {
 			if (other.matricula != null)
 				return false;
@@ -66,6 +91,11 @@ public class Professor implements Serializable {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
+			return false;
+		if (turmas == null) {
+			if (other.turmas != null)
+				return false;
+		} else if (!turmas.equals(other.turmas))
 			return false;
 		return true;
 	}

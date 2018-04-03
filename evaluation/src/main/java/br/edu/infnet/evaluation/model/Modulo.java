@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -18,23 +18,34 @@ public class Modulo implements Serializable {
 
 	private static final long serialVersionUID = 4684701547934083187L;
 
-		@Id
+	@Id
+	@GeneratedValue
+	@Column(name = "id_modulo")
+	private Long id;
+
+	@NaturalId
 	@Column(name = "cod_modulo")
 	private String codigo;
 
 	private String nome;
 
-	private String periodo;
+	@ManyToMany
+	@JoinTable(name = "modulos_avaliacoes", joinColumns = { @JoinColumn(name = "id_modulo") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_avaliacao") })
+	private List<Avaliacao> avaliacoes;
 
-	@OneToMany
-	@JoinColumn(name = "cod_modulo")
+	@ManyToMany(mappedBy = "modulos")
 	private List<Turma> turmas;
 
-	@OneToMany
-	@JoinColumn(name = "mat_professor")
-	private List<Professor> professores;
+	public Long getId() {
+		return id;
+	}
 
-		public String getCodigo() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
 		return codigo;
 	}
 
@@ -50,14 +61,6 @@ public class Modulo implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getPeriodo() {
-		return periodo;
-	}
-
-	public void setPeriodo(String periodo) {
-		this.periodo = periodo;
-	}
-
 	public List<Turma> getTurmas() {
 		return turmas;
 	}
@@ -66,22 +69,22 @@ public class Modulo implements Serializable {
 		this.turmas = turmas;
 	}
 
-	public List<Professor> getProfessores() {
-		return professores;
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
 	}
 
-	public void setProfessores(List<Professor> professores) {
-		this.professores = professores;
+	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+		this.avaliacoes = avaliacoes;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((avaliacoes == null) ? 0 : avaliacoes.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((periodo == null) ? 0 : periodo.hashCode());
-		result = prime * result + ((professores == null) ? 0 : professores.hashCode());
 		result = prime * result + ((turmas == null) ? 0 : turmas.hashCode());
 		return result;
 	}
@@ -95,25 +98,25 @@ public class Modulo implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Modulo other = (Modulo) obj;
+		if (avaliacoes == null) {
+			if (other.avaliacoes != null)
+				return false;
+		} else if (!avaliacoes.equals(other.avaliacoes))
+			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
-			return false;
-		if (periodo == null) {
-			if (other.periodo != null)
-				return false;
-		} else if (!periodo.equals(other.periodo))
-			return false;
-		if (professores == null) {
-			if (other.professores != null)
-				return false;
-		} else if (!professores.equals(other.professores))
 			return false;
 		if (turmas == null) {
 			if (other.turmas != null)
@@ -123,5 +126,4 @@ public class Modulo implements Serializable {
 		return true;
 	}
 
-	
 }

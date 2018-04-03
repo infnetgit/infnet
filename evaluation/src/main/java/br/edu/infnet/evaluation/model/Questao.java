@@ -22,6 +22,11 @@ public class Questao implements Serializable {
 	private static final long serialVersionUID = 8843242245478530980L;
 
 	@Id
+	@GeneratedValue
+	@Column(name = "id_questao")
+	private Long id;
+
+	@NaturalId
 	@Column(name = "cod_questao")
 	private String codigo;
 
@@ -32,7 +37,7 @@ public class Questao implements Serializable {
 	private String cabecalho;
 
 	@ManyToOne
-	@JoinColumn(name = "mat_aluno")
+	@JoinColumn(name = "id_aluno")
 	private Aluno respondente;
 
 	/**
@@ -81,6 +86,7 @@ public class Questao implements Serializable {
 		int result = 1;
 		result = prime * result + ((cabecalho == null) ? 0 : cabecalho.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((respondente == null) ? 0 : respondente.hashCode());
 		result = prime * result + ((resposta == null) ? 0 : resposta.hashCode());
 		return result;
@@ -104,6 +110,11 @@ public class Questao implements Serializable {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (respondente == null) {
 			if (other.respondente != null)

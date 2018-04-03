@@ -1,7 +1,6 @@
 package br.edu.infnet.evaluation.model;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,16 +17,28 @@ import org.hibernate.annotations.NaturalId;
 public class Curso implements Serializable {
 
 	private static final long serialVersionUID = -1034650088670732964L;
+	@Id
+	@GeneratedValue
+	@Column(name = "id_curso")
+	private Long id;
 
-		@Id
+	@NaturalId
 	@Column(name = "cod_curso")
 	private String codigo;
 
 	private String nome;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cod_curso")
+	@JoinColumn(name = "id_curso")
 	private List<Bloco> blocos;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getCodigo() {
 		return codigo;
@@ -59,6 +70,7 @@ public class Curso implements Serializable {
 		int result = 1;
 		result = prime * result + ((blocos == null) ? 0 : blocos.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -81,6 +93,11 @@ public class Curso implements Serializable {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
